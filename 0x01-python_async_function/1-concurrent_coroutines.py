@@ -9,6 +9,6 @@ async def wait_n(n: int, max_delay: int) -> List[int]:
     """ Executes wait_random n-times with max_delay as argument
         Returns a sorted list without using the sort method
     """
-    wait_list = [await wait_random(max_delay) for i in range(n)]
+    wait_list = [asyncio.create_task(wait_random(max_delay)) for _ in range(n)]
 
-    return sorted(wait_list)
+    return [await item for item in asyncio.as_completed(wait_list)]

@@ -1,4 +1,4 @@
-#!/usr/bin/ebn python3
+#!/usr/bin/env python3
 """ Async Comprehension """
 import asyncio
 from typing import Iterable, Iterator

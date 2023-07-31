@@ -2,12 +2,12 @@
 """ Parametzise unit test"""
 import unittest
 from parameterized import parameterized
-from utils import (access_nested_map, get_json, memoize)
-from unittest.mock import patch
+from utils import access_nested_map
 
 
-class TestAccessNestesdMap(unittest.TestCase):
-    """test class"""
+
+class TestAccessNestedMap(unittest.TestCase):
+    """testAccessNestedMap class """
 
     @parameterized.expand([
         ({"a": 1}, ("a",), 1),

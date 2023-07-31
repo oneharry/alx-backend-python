@@ -18,7 +18,7 @@ class TestGithubOrgClient(unittest.TestCase):
         url = "https://api.github.com/orgs/{}".format(name)
         test = GithubOrgClient(name)
         test.org()
-        mock.assert_called_once_with("{}".format(url))
+        mock.assert_called_once_with(url)
 
     def test_public_repos_url(self):
         """Method testing for public repo"""

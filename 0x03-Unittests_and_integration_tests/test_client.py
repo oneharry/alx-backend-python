@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Uniitest mock modules"""
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock, PropertyMock
 from clien import GithubOrgClient
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
+from fixture import TEST_PAYLOAD
+import json
+
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -59,4 +62,28 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
-    @parameterized
+@parameterized_class('org_payload', 'repos_payload', 'expected_repos',
+                         'apache2_repos', TEST_PAYLOAD)
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """ TestIntegrationGithubOrgClient class"""
+    @classmethod
+    def setUpClass(cls):
+        """Set up method for all tests"""
+        cls.get_patcher = patch('requests.get')
+        cls.mock = cls.get_patcher.start()
+
+        cls.mock.side_effect = [
+            cls.org_payload,
+            cls.repos_payload,
+        ]
+
+    @classmethod
+    def tearDownClass(cls):
+        """ Tear down, called at the end of all tests"""
+        cls.get_patcher.stop()
+
+
+    def test_public_repos(self):
+        """Test publiv repos"""
+        test = GithubOrgClient("google")
+

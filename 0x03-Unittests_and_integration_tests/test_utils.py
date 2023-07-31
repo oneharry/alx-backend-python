@@ -2,7 +2,8 @@
 """ Parametzise unit test"""
 import unittest
 from parameterized import parameterized
-from utils import access_nested_map
+from utils import access_nested_map, get_json
+from unittest.mock import patch, Mock
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -26,3 +27,18 @@ class TestAccessNestedMap(unittest.TestCase):
         with self.assertRaises(KeyError) as exc:
             access_nested_map(nested_map, path)
         self.assertEqual(repr(exc.exception), f"KeyError('{expected}')")
+
+
+class TestGetJson(unittest.TestCase):
+    """TestGetJson class"""
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False}),
+    ])
+    def test_get_json(self, test_url, test_payload):
+        """ Test get_json"""
+        conf = {'return_value.json.return_value': test_payload}
+        json_patch = patch('requests.get', **conf)
+        mock = json_patch.start()
+        mock.asser_called_once()
+        json_patch.stop()

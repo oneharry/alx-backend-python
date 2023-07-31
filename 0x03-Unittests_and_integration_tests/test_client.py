@@ -93,4 +93,11 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         self.assertEqual(testpublic_repos('XLICENCE', [])
         self.mock.assert_called()
 
-
+    def test_repos_with_licence(self):
+        """testing integration for repos with licencs"""
+        test = GithubOrgClient("test")
+        self.assertEqual(test.public_repos(), self.expected_repos)
+        self.assertEqual(test.public_repo('XLICENCE'), [])
+        self.assertEqual(test.public_repo("apache-2.0",
+                         self.apache2_repos)
+        self.mock.assert_called()

@@ -15,7 +15,7 @@ class TestGithubOrgClient(unittest.TestCase):
     ])
     def test_org(self, name, mock):
         """Tests that client returns correct value"""
-        url = "https://api.github.com/orgs/{}".format(name)
+        url = f"https://api.github.com/orgs/{name}"
         test = GithubOrgClient(name)
         test.org()
         mock.assert_called_once_with(url)

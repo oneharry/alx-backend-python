@@ -8,7 +8,6 @@ from fixture import TEST_PAYLOAD
 import json
 
 
-
 class TestGithubOrgClient(unittest.TestCase):
     """TestGuthubOrgClient class"""
 
@@ -63,7 +62,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
 
 @parameterized_class('org_payload', 'repos_payload', 'expected_repos',
-                         'apache2_repos', TEST_PAYLOAD)
+                     'apache2_repos', TEST_PAYLOAD)
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """ TestIntegrationGithubOrgClient class"""
     @classmethod
@@ -82,7 +81,6 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """ Tear down, called at the end of all tests"""
         cls.get_patcher.stop()
 
-
     def test_public_repos(self):
         """Test publiv repos"""
         test = GithubOrgClient("test")
@@ -90,7 +88,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         self.assertEqual(test, self.org_payload)
         self.assertEqual(test.repos_payload, self.repos_payload)
         self.assertEqual(test.public_repos(), self.expected_repos)
-        self.assertEqual(testpublic_repos('XLICENCE', [])
+        self.assertEqual(testpublic_repos('XLICENCE', []))
         self.mock.assert_called()
 
     def test_repos_with_licence(self):
@@ -99,5 +97,5 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         self.assertEqual(test.public_repos(), self.expected_repos)
         self.assertEqual(test.public_repo('XLICENCE'), [])
         self.assertEqual(test.public_repo("apache-2.0",
-                         self.apache2_repos)
+                         self.apache2_repos))
         self.mock.assert_called()

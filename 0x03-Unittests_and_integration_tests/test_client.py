@@ -85,5 +85,12 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     def test_public_repos(self):
         """Test publiv repos"""
-        test = GithubOrgClient("google")
+        test = GithubOrgClient("test")
+
+        self.assertEqual(test, self.org_payload)
+        self.assertEqual(test.repos_payload, self.repos_payload)
+        self.assertEqual(test.public_repos(), self.expected_repos)
+        self.assertEqual(testpublic_repos('XLICENCE', [])
+        self.mock.assert_called()
+
 

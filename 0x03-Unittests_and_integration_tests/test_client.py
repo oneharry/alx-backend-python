@@ -8,14 +8,14 @@ from parameterized import parameterized
 
 class TestGithubOrgClient(unittest.TestCase):
     """TestGuthubOrgClient class"""
-    @patch('client.get_json')
     @parameterized.expand([
         ('google',),
         ('abc',),
     ])
+    @patch('client.get_json')
     def test_org(self, name, mock):
         """Tests that client returns correct value"""
-        url = f"https://api.github.com/orgs/{name}"
+        url = "https://api.github.com/orgs/{}".format(name)
         test = GithubOrgClient(name)
         test.org()
         mock.assert_called_once_with(url)

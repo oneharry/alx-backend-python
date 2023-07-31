@@ -25,4 +25,4 @@ class TestAccessNestedMap(unittest.TestCase):
         """ Test exception raised from nested map"""
         with self.assertRaises(KeyError) as exc:
             access_nested_map(nested_map, path)
-        self.assertEqual(str(exc.exception), "{}".format(KeyError(expected)))
+        self.assertEqual(str(exc.exception), f"KeyError('{expected}')")

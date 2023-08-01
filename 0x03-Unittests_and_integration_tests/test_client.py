@@ -91,11 +91,11 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         pub_repo = client.public_repos
 
-        expected_org_url = f'https://api.github.com/orgs/{org_name}'
-        expected_repos_url = f'https://api.github.com/orgs/{org_name}/repos?
-                              license=apache-2.0'
-        mock.assert_called_with(expected_org_url)
-        mock.assert_called_with(expected_repos_url)
+        org_url = "https://api.github.com/orgs/{}".format(name)
+        repos_url = "https://api.github.com/orgs/{}/repos?lic\
+                    ense=apache-2.0".format(name)
+        mock.assert_called_with(org_url)
+        mock.assert_called_with(repos_url)
 
         self.assertEqual(pub_repo, expected_repos)
 
@@ -107,11 +107,10 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         test = GithubOrgClient(name)
         pub_repo = client.public_repos(license="apache-2.0")
 
-        expected_org_url = f'https://api.github.com/orgs/{org_name}'
-        expected_repos_url = f'https://api.github.com/orgs/{org_name}/repos?
-                              license=apache-2.0'
+        expected_org_url = "https://api.github.com/orgs/{}".format(name)
+        expected_repos_url = "https://api.github.com/orgs/{}/repos?\
+                              license=apache-2.0".format(name)
         mock.assert_called_with(expected_org_url)
         mock.assert_called_with(expected_repos_url)
 
         self.assertEqual(pub_repo, apache2_repos)
-

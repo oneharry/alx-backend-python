@@ -81,21 +81,37 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """ Tear down, called at the end of all tests"""
         cls.get_patcher.stop()
 
-    def test_public_repos(self):
+    @patch('client.GithubOrgClient.get_json')
+    def test_public_repos(self, mock):
         """Test publiv repos"""
-        test = GithubOrgClient("test")
 
-        self.assertEqual(test, self.org_payload)
-        self.assertEqual(test.repos_payload, self.repos_payload)
-        self.assertEqual(test.public_repos(), self.expected_repos)
-        self.assertEqual(testpublic_repos('XLICENCE', []))
-        self.mock.assert_called()
+        mock.side_effect = [org_payload, repos_payload]
+        name = "google"
+        test = GithubOrgClient(name)
 
-    def test_repos_with_licence(self):
+        pub_repo = client.public_repos
+
+        expected_org_url = f'https://api.github.com/orgs/{org_name}'
+        expected_repos_url = f'https://api.github.com/orgs/{org_name}/repos?
+                              license=apache-2.0'
+        mock.assert_called_with(expected_org_url)
+        mock.assert_called_with(expected_repos_url)
+
+        self.assertEqual(pub_repo, expected_repos)
+
+    @patch('client.GithubOrgClient.get_json')
+    def test_repos_with_licence(self, mock):
         """testing integration for repos with licencs"""
-        test = GithubOrgClient("test")
-        self.assertEqual(test.public_repos(), self.expected_repos)
-        self.assertEqual(test.public_repo('XLICENCE'), [])
-        self.assertEqual(test.public_repo("apache-2.0",
-                         self.apache2_repos))
-        self.mock.assert_called()
+        mock.side_effect = [org_payload, apache2_repos]
+        name = "google"
+        test = GithubOrgClient(name)
+        pub_repo = client.public_repos(license="apache-2.0")
+
+        expected_org_url = f'https://api.github.com/orgs/{org_name}'
+        expected_repos_url = f'https://api.github.com/orgs/{org_name}/repos?
+                              license=apache-2.0'
+        mock.assert_called_with(expected_org_url)
+        mock.assert_called_with(expected_repos_url)
+
+        self.assertEqual(pub_repo, apache2_repos)
+
